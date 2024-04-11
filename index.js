@@ -5,12 +5,13 @@ const cors = require("cors");
 const app = express();
 
 morgan.token("body", function getBody(req) {
-  return req.body;
+  if (req.method === "POST") {
+    return JSON.stringify(req.body);
+  }
 });
 
 app.use(cors());
 app.use(express.json());
-app.use(assignBody);
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
@@ -37,13 +38,6 @@ let persons = [
     number: "39-23-6423122",
   },
 ];
-
-function assignBody(req, res, next) {
-  if (req.method === "POST") {
-    req.body = JSON.stringify(req.body);
-  }
-  next();
-}
 
 const generateId = () => {
   return Math.floor(Math.random() * 10000);
