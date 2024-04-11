@@ -10,7 +10,7 @@ morgan.token("body", function getBody(req) {
   }
 });
 
-app.use(express.static());
+app.use(express.static("dist"));
 app.use(cors());
 app.use(express.json());
 app.use(
